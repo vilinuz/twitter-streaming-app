@@ -1,45 +1,25 @@
 package org.twitter.streaming.app;
 
-import org.twitter.streaming.app.config.TwitterConfig;
-import org.twitter.streaming.app.config.TwitterStatusThreshold;
-import org.twitter.streaming.app.listener.TwitterStatusListener;
-import org.twitter.streaming.app.reactive.TwitterStatusEventPublisher;
-import org.twitter.streaming.app.reactive.TwitterStatusEventSubscriber;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
+// import org.twitter.streaming.app.config.TwitterStatusThreshold; // Removed
 import org.springframework.context.annotation.Configuration;
 
+// No @ComponentScan needed here if @SpringBootApplication is used in the main app class correctly.
+
 @Configuration
-@ComponentScan(basePackages = "org.interview.oauth.twitter")
 public class SpringApplicationConfiguration {
-    public static final String CONFIG = "config";
-    public static final String THRESHOLD = "threshold";
-    public static final String PUBLISHER = "publisher";
-    public static final String SUBSCRIBER= "subscriber";
-    public static final String LISTENER = "listener";
 
-    @Bean(CONFIG)
-    public TwitterConfig getConfiguration() {
-        return new TwitterConfig();
-    }
+    // All specific bean name constants like THRESHOLD, CONFIG, etc., are now removed
+    // as the beans they referred to are either managed by component scan or removed.
 
-    @Bean(THRESHOLD)
-    public TwitterStatusThreshold getThreshold() {
-        return new TwitterStatusThreshold();
-    }
+    // TwitterConfig is a @ConfigurationProperties bean, automatically registered.
+    // TwitterStatusThreshold has been removed.
+    // ReactiveTwitterService, TweetProcessingService, TwitterStatusesJsonCreator are @Service/@Component,
+    // found by component scan.
+    // OAuthAuthorization is a @Bean within TwitterConfig.
 
-    @Bean(PUBLISHER)
-    public TwitterStatusEventPublisher getPublisher() {
-        return new TwitterStatusEventPublisher(new TwitterConfig());
-    }
-
-    @Bean(SUBSCRIBER)
-    public TwitterStatusEventSubscriber getSubscriber() {
-        return new TwitterStatusEventSubscriber();
-    }
-
-    @Bean(LISTENER)
-    public TwitterStatusListener getListener() {
-        return new TwitterStatusListener();
-    }
+    // This class can be kept if other general @Bean definitions are needed in the future,
+    // or it can be removed if @SpringBootApplication's component scan and @Configuration classes
+    // like TwitterConfig cover all bean definitions.
+    // For now, leaving it as is (empty or with comments) as a placeholder for potential future shared beans.
+    // If no such beans are envisioned, this file could also be deleted.
 }
